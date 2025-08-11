@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"department","courses"})
+@ToString(exclude = {"department","courses"})
 public class Instructors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Instructors {
     @Column(name = "email", length = 100, unique = true)
     private String email;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Departments department;
 
@@ -37,5 +37,5 @@ public class Instructors {
     private List<Courses> courses;
 
 
-*/
+
 }

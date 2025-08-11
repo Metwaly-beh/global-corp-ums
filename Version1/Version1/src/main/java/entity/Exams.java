@@ -1,5 +1,6 @@
 package entity;
 
+import enums.ExamType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"course", "classroom"})
+@ToString(exclude = {"course", "classroom"})
 public class Exams {
 
 
@@ -36,7 +37,10 @@ public class Exams {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "exam_type")
+    private ExamType examType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
     private Classrooms classroom;
-*/}
+}

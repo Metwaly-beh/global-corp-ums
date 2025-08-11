@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = "role")
+@ToString(exclude = "role")
 public class User {
 
     @Id
@@ -37,7 +37,7 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-   /* @ManyToOne(fetch = FetchType.EAGER) // Load role immediately since it's always needed
+    @ManyToOne(fetch = FetchType.EAGER) // Load role immediately since it's always needed
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-*/}
+}

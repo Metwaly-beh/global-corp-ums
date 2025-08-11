@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "students")
-//@ToString(exclude = "department")
+@ToString(exclude = "department")
 public class Students {
 
 
@@ -34,8 +34,8 @@ public class Students {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-   /* @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Departments department;
-*/
+
 }

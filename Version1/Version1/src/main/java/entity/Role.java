@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = "users")
+@ToString(exclude = "users")
 public class Role {
 
     @Id
@@ -22,6 +22,6 @@ public class Role {
     @Column(name = "role_name", length = 50, unique = true)
     private String roleName;
 
-   // @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    //private Set<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private Set<User> users;
 }

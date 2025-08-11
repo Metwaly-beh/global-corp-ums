@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"course", "classroom"})
+@ToString(exclude = {"course", "classroom"})
 public class Schedule {
 
 
@@ -23,14 +23,14 @@ public class Schedule {
     @Column(name = "schedule_id")
     private Integer scheduleId;
 
-  /*  @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Courses course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
     private Classrooms classroom;
-*/
+
     @Column(name = "schedule_day", length = 20)
     private String scheduleDay;
 
