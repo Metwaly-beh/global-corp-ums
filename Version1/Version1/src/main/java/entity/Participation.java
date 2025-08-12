@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {})
+@ToString(exclude = {"schedule","students"})
 public class Participation {
 
     @Id
@@ -27,7 +28,16 @@ public class Participation {
     private boolean attended;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Students students;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="schedule_id")
+    private Schedule schedule;
 
 
 }

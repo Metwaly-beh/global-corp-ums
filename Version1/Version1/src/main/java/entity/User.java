@@ -40,4 +40,5 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER) // Load role immediately since it's always needed
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
 }

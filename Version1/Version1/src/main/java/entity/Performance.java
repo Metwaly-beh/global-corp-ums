@@ -12,7 +12,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {})
+@ToString(exclude = {"exams","students"})
 public class Performance {
 
 
@@ -25,4 +25,12 @@ public class Performance {
 
     @Column(name = "grade")
     private double grade;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Students students;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id")
+    private Exams exams;
 }

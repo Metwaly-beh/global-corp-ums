@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"department", "instructor", "schedules", "exams"})
-
+@ToString(exclude = {"department", "instructor", "schedules", "exams", "enrollments"})
 public class Courses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +39,7 @@ public class Courses {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Exams> exams;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Enrollments> enrollments;
 }

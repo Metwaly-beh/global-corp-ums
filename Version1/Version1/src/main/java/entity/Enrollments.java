@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString()
+@ToString(exclude = {"student", "course"})
 public class Enrollments {
 
     @Id
@@ -24,5 +24,15 @@ public class Enrollments {
 
     @Column(name = "enrolled_at")
     private LocalDateTime enrolledAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Students student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Courses course;
+
+
 
 }

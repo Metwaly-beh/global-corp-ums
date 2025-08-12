@@ -1,10 +1,11 @@
 package entity;
 
 
+import enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -19,9 +20,9 @@ public class Role {
     @Column(name = "role_id")
     private Integer roleId;
 
-    @Column(name = "role_name", length = 50, unique = true)
-    private String roleName;
+    @Column(name = "user_role")
+    private UserRole userRole;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<User> users;
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<User> users;
 }

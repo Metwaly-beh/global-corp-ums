@@ -1,6 +1,7 @@
 package entity;
 
 
+import enums.ScheduleDay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,13 +9,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "schedules")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"course", "classroom"})
+@ToString(exclude = {"course", "classroom","participation"})
 public class Schedule {
 
 
@@ -31,12 +33,16 @@ public class Schedule {
     @JoinColumn(name = "classroom_id")
     private Classrooms classroom;
 
-    @Column(name = "schedule_day", length = 20)
-    private String scheduleDay;
+    @Column(name = "schedule_day")
+    private ScheduleDay scheduleDay;
 
     @Column(name = "start_time")
     private LocalTime startTime;
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Participation> participation;
+
 }

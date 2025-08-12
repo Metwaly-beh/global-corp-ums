@@ -9,13 +9,14 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "exams")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"course", "classroom"})
+@ToString(exclude = {"course", "classroom","performance"})
 public class Exams {
 
 
@@ -23,10 +24,6 @@ public class Exams {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exam_id")
     private Integer examId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Courses course;
 
     @Column(name = "exam_date")
     private LocalDate examDate;
@@ -43,4 +40,11 @@ public class Exams {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
     private Classrooms classroom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Courses course;
+
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Performance> performances;
 }
