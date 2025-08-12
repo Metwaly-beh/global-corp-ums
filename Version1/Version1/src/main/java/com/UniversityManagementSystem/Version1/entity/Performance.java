@@ -1,4 +1,4 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"exams","students"})
+@ToString(exclude = {"exam","student"})
 public class Performance {
 
 
@@ -28,9 +28,9 @@ public class Performance {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    private Students students;
+    private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id")
-    private Exams exams;
+    private Exam exam;
 }

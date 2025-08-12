@@ -1,4 +1,4 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"department","courses","user"})
-public class Instructors {
+public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "instructor_id")
@@ -31,10 +31,10 @@ public class Instructors {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
-    private Departments department;
+    private Department department;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Courses> courses;
+    private List<Course> courses;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

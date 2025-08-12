@@ -1,4 +1,4 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 
 import jakarta.persistence.*;
@@ -8,14 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name="participation")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"schedule","students"})
+@ToString(exclude = {"schedule","student"})
 public class Participation {
 
     @Id
@@ -33,7 +32,7 @@ public class Participation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    private Students students;
+    private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="schedule_id")

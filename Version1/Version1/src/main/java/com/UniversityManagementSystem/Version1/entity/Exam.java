@@ -1,6 +1,6 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
-import enums.ExamType;
+import com.UniversityManagementSystem.Version1.enums.ExamType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"course", "classroom","performance"})
-public class Exams {
+public class Exam {
 
 
     @Id
@@ -39,12 +39,12 @@ public class Exams {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
-    private Classrooms classroom;
+    private Classroom classroom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    private Courses course;
+    private Course course;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Performance> performances;
+    private List<Performance> performance;
 }

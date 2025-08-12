@@ -1,7 +1,7 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 
-import enums.UserRole;
+import com.UniversityManagementSystem.Version1.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 

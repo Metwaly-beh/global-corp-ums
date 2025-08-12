@@ -1,7 +1,7 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 
-import enums.ScheduleDay;
+import com.UniversityManagementSystem.Version1.enums.ScheduleDay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +27,11 @@ public class Schedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    private Courses course;
+    private Course course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
-    private Classrooms classroom;
+    private Classroom classroom;
 
     @Column(name = "schedule_day")
     private ScheduleDay scheduleDay;
