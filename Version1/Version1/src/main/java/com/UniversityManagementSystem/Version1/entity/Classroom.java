@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"schedules", "exams"})
+@ToString(exclude = {"schedule", "exams"})
 public class Classroom {
 
 
@@ -36,11 +36,10 @@ public class Classroom {
 
 
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Schedule> schedules;
+    private List<Schedule> schedule;
 
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Exam> exams;@OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Schedule> schedule;
+    private List<Exam> exams;
 
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Exam> examList;

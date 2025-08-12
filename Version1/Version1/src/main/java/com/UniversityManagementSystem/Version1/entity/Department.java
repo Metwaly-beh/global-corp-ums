@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"students","instructors","courses"})
-public class Department {
+public class Department  {
 
 
 
