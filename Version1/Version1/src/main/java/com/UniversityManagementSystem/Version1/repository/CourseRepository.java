@@ -33,10 +33,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findByCredits(Integer credits);
 
     // Find courses with enrollments
-    @Query("SELECT c FROM Courses c LEFT JOIN FETCH c.enrollments WHERE c.courseId = :id")
+    @Query("SELECT c FROM Course c LEFT JOIN FETCH c.enrollments WHERE c.courseId = :id")
     Optional<Course> findByIdWithEnrollments(@Param("id") Integer courseId);
 
     // Find courses with schedules and exams
-    @Query("SELECT c FROM Courses c LEFT JOIN FETCH c.schedules LEFT JOIN FETCH c.exams WHERE c.courseId = :id")
+    @Query("SELECT c FROM Course c LEFT JOIN FETCH c.schedules LEFT JOIN FETCH c.exams WHERE c.courseId = :id")
     Optional<Course> findByIdWithSchedulesAndExams(@Param("id") Integer courseId);
 }

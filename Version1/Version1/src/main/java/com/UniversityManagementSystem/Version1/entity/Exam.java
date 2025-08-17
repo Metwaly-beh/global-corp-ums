@@ -1,6 +1,5 @@
 package com.UniversityManagementSystem.Version1.entity;
 
-import com.UniversityManagementSystem.Version1.enums.ExamType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +34,7 @@ public class Exam {
     private LocalTime endTime;
 
     @Column(name = "exam_type")
-    private ExamType examType;
+    private String examType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")

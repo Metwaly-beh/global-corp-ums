@@ -26,5 +26,5 @@ Optional<Student> findByEmail(String email);
 
     List<Student> findByFirstNameAndLastName(String firstName, String lastName);
 
-    @Query("SELECT s FROM Students s LEFT JOIN FETCH s.enrollments WHERE s.studentId = :id")
+    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.enrollments WHERE s.studentId = :id")
     Optional<Student> findByIdWithEnrollment(@Param("id") Integer studentId);}

@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    @Value("${jwt.secret:mySecretKeymySecretKeymySecretKeymySecretKeymySecretKeymySecretKey}")
+    @Value("${jwt.secret:nD8x!kZ@T5^eFp#2LgW$7qRtZ*mjAyVXc9&PuE1zHsNbJ3KdQy6UB!MzW$e4RnLa}")
     private String secret;
 
     @Value("${jwt.expiration:86400}") // 24 hours in seconds
@@ -56,7 +56,7 @@ public class JwtTokenUtil {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
-        claims.put("role", user.getRole().getUserRole());
+        claims.put("role", user.getRole().getRoleName());
         return createToken(claims, user.getUsername());
     }
 

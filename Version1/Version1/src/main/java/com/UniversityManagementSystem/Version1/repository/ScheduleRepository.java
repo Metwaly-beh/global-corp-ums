@@ -33,7 +33,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     List<Schedule> findByScheduleDayAndStartTimeBetween(String scheduleDay, LocalTime startTime, LocalTime endTime);
 
     // Find conflicting schedules (same classroom, overlapping time)
-    @Query("SELECT s FROM Schedules s WHERE s.classroom.classroomId = :classroomId " +
+    @Query("SELECT s FROM Schedule s WHERE s.classroom.classroomId = :classroomId " +
             "AND s.scheduleDay = :day AND s.startTime < :endTime AND s.endTime > :startTime")
     List<Schedule> findConflictingSchedules(@Param("classroomId") Integer classroomId,
                                              @Param("day") String day,
@@ -41,10 +41,10 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
                                              @Param("endTime") LocalTime endTime);
 
     // Find schedules for a specific instructor
-    @Query("SELECT s FROM Schedules s WHERE s.course.instructor.instructorId = :instructorId")
+    @Query("SELECT s FROM Schedule s WHERE s.course.instructor.instructorId = :instructorId")
     List<Schedule> findByInstructorId(@Param("instructorId") Integer instructorId);
 
     // Find schedules with participation
-    @Query("SELECT s FROM Schedules s LEFT JOIN FETCH s.participation WHERE s.scheduleId = :id")
+    @Query("SELECT s FROM Schedule s LEFT JOIN FETCH s.participation WHERE s.scheduleId = :id")
     List<Schedule> findByIdWithParticipation(@Param("id") Integer scheduleId);
 }

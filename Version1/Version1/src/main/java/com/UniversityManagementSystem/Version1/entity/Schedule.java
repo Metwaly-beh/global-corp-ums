@@ -1,7 +1,7 @@
 package com.UniversityManagementSystem.Version1.entity;
 
 
-import com.UniversityManagementSystem.Version1.enums.ScheduleDay;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class Schedule {
     private Classroom classroom;
 
     @Column(name = "schedule_day")
-    private ScheduleDay scheduleDay;
+    private String scheduleDay;
 
     @Column(name = "start_time")
     private LocalTime startTime;

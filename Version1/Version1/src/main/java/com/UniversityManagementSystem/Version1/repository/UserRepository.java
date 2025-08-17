@@ -30,8 +30,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByRoleRoleId(Integer roleId);
 
     // Find users by role name
-    @Query("SELECT u FROM Users u WHERE u.role.roleName = :roleName")
-    List<User> findByRoleName(@Param("roleName") String roleName);
+    @Query("SELECT u FROM User u WHERE u.role.roleName = :roleName")
+    List<User> findByRoleName(@Param("RoleName") String roleName);
 
     // Find users created after a specific date
     List<User> findByCreatedAtAfter(LocalDateTime date);
@@ -46,10 +46,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByEmail(String email);
 
     // Find user with role (eager loading)
-    @Query("SELECT u FROM Users u JOIN FETCH u.role WHERE u.userId = :id")
+    @Query("SELECT u FROM User u JOIN FETCH u.role WHERE u.userId = :id")
     Optional<User> findByIdWithRole(@Param("id") Integer userId);
 
     // Find user by username with role (for authentication)
-    @Query("SELECT u FROM Users u JOIN FETCH u.role WHERE u.username = :username")
+    @Query("SELECT u FROM User u JOIN FETCH u.role WHERE u.username = :username")
     Optional<User> findByUsernameWithRole(@Param("username") String username);
 }

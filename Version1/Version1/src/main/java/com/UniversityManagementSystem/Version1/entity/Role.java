@@ -1,7 +1,7 @@
 package com.UniversityManagementSystem.Version1.entity;
 
 
-import com.UniversityManagementSystem.Version1.enums.UserRole;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +20,8 @@ public class Role {
     @Column(name = "role_id")
     private Integer roleId;
 
-    @Column(name = "user_role")
-    private UserRole userRole;
+    @Column(name = "role_name")
+    private String roleName;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> users;

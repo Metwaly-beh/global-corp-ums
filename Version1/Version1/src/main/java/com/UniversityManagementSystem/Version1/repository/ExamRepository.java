@@ -52,6 +52,6 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
     List<Exam> findByInstructorId(@Param("instructorId") Integer instructorId);
 
     // Find exams with performances
-    @Query("SELECT e FROM Exam e LEFT JOIN FETCH e.performances WHERE e.examId = :id")
+    @Query("SELECT e FROM Exam e LEFT JOIN FETCH e.performance WHERE e.examId = :id")
     List<Exam> findByIdWithPerformances(@Param("id") Integer examId);
 }

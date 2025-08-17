@@ -1,5 +1,5 @@
 package com.UniversityManagementSystem.Version1.enums;
 
-public enum Building {
+ enum Building {
     A,B,C,D,E
 }

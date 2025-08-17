@@ -29,7 +29,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
     List<Instructor> findByFirstNameAndLastName(String firstName, String lastName);
 
     // Custom query to find instructor with their courses
-    @Query("SELECT i FROM Instructors i LEFT JOIN FETCH i.courses WHERE i.instructorId = :id")
+    @Query("SELECT i FROM Instructor i LEFT JOIN FETCH i.courses WHERE i.instructorId = :id")
     Optional<Instructor> findByIdWithCourses(@Param("id") Integer instructorId);
 
     // Check if email exists

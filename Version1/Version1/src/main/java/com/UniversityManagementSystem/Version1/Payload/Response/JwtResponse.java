@@ -1,15 +1,15 @@
 package com.UniversityManagementSystem.Version1.Payload.Response;
 
-import com.UniversityManagementSystem.Version1.enums.UserRole;
+
 
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
     private String username;
-    private UserRole role;
+    private String role;
     private int userId;
 
-    public JwtResponse(String accessToken, String username, UserRole role, int userId) {
+    public JwtResponse(String accessToken, String username, String role, int userId) {
         this.token = accessToken;
         this.username = username;
         this.role = role;
@@ -41,11 +41,11 @@ public class JwtResponse {
         this.username = username;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

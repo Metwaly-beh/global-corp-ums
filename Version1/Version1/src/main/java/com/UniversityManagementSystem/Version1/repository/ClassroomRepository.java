@@ -1,7 +1,6 @@
 package com.UniversityManagementSystem.Version1.repository;
 
 import com.UniversityManagementSystem.Version1.entity.Classroom;
-import com.UniversityManagementSystem.Version1.enums.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +16,7 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     List<Classroom> findByBuilding(String building);
 
     // Find classroom by building and room number
-    Optional<Classroom> findByBuildingAndRoomNumber(Building building, String roomNumber);
+    Optional<Classroom> findByBuildingAndRoomNumber(String building, String roomNumber);
 
     // Find classrooms by capacity greater than or equal to
     List<Classroom> findByCapacityGreaterThanEqual(Integer minCapacity);
@@ -26,13 +25,13 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     List<Classroom> findByCapacityBetween(Integer minCapacity, Integer maxCapacity);
 
     // Find available classrooms (not scheduled at specific time)
-    @Query("SELECT c FROM Classrooms c WHERE c.classroomId NOT IN " +
-            "(SELECT s.classroom.classroomId FROM Schedules s WHERE s.scheduleDay = :day " +
+    @Query("SELECT c FROM Classroom c WHERE c.classroomId NOT IN " +
+            "(SELECT s.classroom.classroomId FROM Schedule s WHERE s.scheduleDay = :day " +
             "AND s.startTime < :endTime AND s.endTime > :startTime)")
     List<Classroom> findAvailableClassrooms(@Param("day") String day,
                                              @Param("startTime") java.time.LocalTime startTime,
                                              @Param("endTime") java.time.LocalTime endTime);
 
     // Check if classroom exists by building and room number
-    boolean existsByBuildingAndRoomNumber(Building building, String roomNumber);
+    boolean existsByBuildingAndRoomNumber(String building, String roomNumber);
 }

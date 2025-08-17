@@ -18,6 +18,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     boolean existsByDepartmentName(String departmentName);
 
     // Custom query to find department with students count
-    @Query("SELECT d FROM Departments d LEFT JOIN d.students s WHERE d.departmentId = :id")
+    @Query("SELECT d FROM Department d LEFT JOIN d.students s WHERE d.departmentId = :id")
     Optional<Department> findByIdWithStudents(@Param("id") Integer departmentId);
 }

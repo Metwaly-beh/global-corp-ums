@@ -18,10 +18,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     boolean existsByRoleName(String roleName);
 
     // Find role with users
-    @Query("SELECT r FROM Roles r LEFT JOIN FETCH r.users WHERE r.roleId = :id")
+    @Query("SELECT r FROM Role r LEFT JOIN FETCH r.users WHERE r.roleId = :id")
     Optional<Role> findByIdWithUsers(@Param("id") Integer roleId);
 
     // Count users by role
-    @Query("SELECT COUNT(u) FROM Users u WHERE u.role.roleId = :roleId")
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role.roleId = :roleId")
     Long countUsersByRoleId(@Param("roleId") Integer roleId);
 }

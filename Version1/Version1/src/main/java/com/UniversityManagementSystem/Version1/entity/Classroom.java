@@ -1,7 +1,7 @@
 package com.UniversityManagementSystem.Version1.entity;
 
 
-import com.UniversityManagementSystem.Version1.enums.Building;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class Classroom {
     private Integer classroomId;
 
     @Column(name = "building")
-    private Building building;
+    private String building;
 
     @Column(name = "room_number", length = 10)
     private String roomNumber;
