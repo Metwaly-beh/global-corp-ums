@@ -1,20 +1,26 @@
 package com.UniversityManagementSystem.Version1.Payload.Request;
 
+//import com.UniversityManagementSystem.Version1.entity.Role;
+
+import com.UniversityManagementSystem.Version1.enums.RoleName;
+
+import java.time.LocalDate;
+
 public class UserRegistrationRequest {
     private String username;
     private String password;
     private String email;
     private String firstName;
     private String lastName;
-    private String dateOfBirth; // For students
+    private LocalDate dateOfBirth; // For students
     private Long departmentId;
-    private String role; // "STUDENT" or "INSTRUCTOR"
+    private RoleName role; // "STUDENT" or "INSTRUCTOR"
 
     // Constructors, getters, setters
     public UserRegistrationRequest() {}
 
     public UserRegistrationRequest(String username, String password, String email,
-                                   String firstName, String lastName, String dateOfBirth,
+                                   String firstName, String lastName, LocalDate dateOfBirth,
                                    Long departmentId, String role) {
         this.username = username;
         this.password = password;
@@ -23,7 +29,7 @@ public class UserRegistrationRequest {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.departmentId = departmentId;
-        this.role = role;
+        this.role = RoleName.valueOf(role);
     }
 
     // Getters and Setters
@@ -37,10 +43,10 @@ public class UserRegistrationRequest {
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-    public String getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
     public Long getDepartmentId() { return departmentId; }
     public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public String getRole() { return role.name(); }
+    public void setRole(String role) { this.role = RoleName.valueOf(role); }
 }

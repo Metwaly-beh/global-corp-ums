@@ -1,4 +1,4 @@
-package com.UniversityManagementSystem.Version1.entity;
+/*package com.UniversityManagementSystem.Version1.entity;
 
 
 
@@ -26,3 +26,4 @@ public class Role {
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> users;
 }
+*/

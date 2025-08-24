@@ -1,9 +1,13 @@
 package com.UniversityManagementSystem.Version1.Controllers;
 
+import com.UniversityManagementSystem.Version1.Payload.Request.UserRegistrationRequest;
 import com.UniversityManagementSystem.Version1.Payload.Response.JwtResponse;
 import com.UniversityManagementSystem.Version1.Payload.Request.LoginRequest;
+import com.UniversityManagementSystem.Version1.Services.Impl.StudentServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.UserServiceImpl;
+import com.UniversityManagementSystem.Version1.entity.Student;
 import com.UniversityManagementSystem.Version1.entity.User;
+import com.UniversityManagementSystem.Version1.enums.RoleName;
 import com.UniversityManagementSystem.Version1.security.JwtTokenUtil;
 import com.UniversityManagementSystem.Version1.Services.*;
 import org.aspectj.apache.bcel.classfile.Module;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,10 +33,14 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private StudentServiceImpl studentService;
+
+    @Autowired
     private UserServiceImpl userService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -54,12 +63,69 @@ public class AuthController {
             return ResponseEntity.ok(new JwtResponse(
                     jwt,
                     user.getUsername(),
-                    user.getRole().getRoleName(),
+                    user.getRoleName().name(),
                     user.getUserId()
             ));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity.badRequest().body("Invalid username or password!");
         }
+    }
+
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
+        User user = new User();
+        Student student=new Student();
+
+        user.setUsername(userRegistrationRequest.getUsername());
+        user.setEmail(userRegistrationRequest.getEmail());
+        user.setPasswordHash(userRegistrationRequest.getPassword());  // Make sure to hash this in production!
+        user.setFirstName(userRegistrationRequest.getFirstName());
+        user.setLastName(userRegistrationRequest.getLastName());
+        user.setDateOfBirth(userRegistrationRequest.getDateOfBirth());  // If your User entity expects a Date type, convert it
+
+
+
+        // You might also want to fetch Department by ID and set it here:
+        // Department dept = departmentRepository.findById(req.getDepartmentId()).orElseThrow(...);
+        // user.setDepartment(dept);
+        try {
+            user.setRoleName(RoleName.valueOf(userRegistrationRequest.getRole().toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid role: " + userRegistrationRequest.getRole());
+        }
+
+
+
+
+
+        User createdUser = userService.createUser(user);
+
+        if (createdUser.getRoleName().name().equals("STUDENT")) {
+            student.setUser(createdUser);
+            student.setEmail(createdUser.getEmail());
+            student.setFirstName(createdUser.getFirstName());
+            student.setLastName(createdUser.getLastName());
+            student.setDateOfBirth(createdUser.getDateOfBirth());
+        }
+
+
+        if (user.getRoleName().name().equals("STUDENT")) {
+            Student createdStudent = studentService.registerStudent(student);
+        }
+
+
+
+
+        String jwt = jwtTokenUtil.generateToken(createdUser);
+
+        // ✅ Return token in the response
+        return ResponseEntity.ok(Map.of(
+                "token", jwt,
+                "username", createdUser.getUsername(),
+                "role", createdUser.getRoleName().name()
+        ));
+
     }
 }

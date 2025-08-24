@@ -20,8 +20,8 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    //@Autowired
+    //private RoleRepository roleRepository;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -51,10 +51,9 @@ public class StudentServiceImpl implements StudentService {
         user.setCreatedAt(LocalDateTime.now());
 
         // Set student role
-        Role studentRole = roleRepository.findByRoleName("STUDENT")
+      /*  Role studentRole = roleRepository.findByRoleName("STUDENT")
                 .orElseThrow(() -> new RuntimeException("Student role not found"));
-        user.setRole(studentRole);
-
+        user.setRole(studentRole);*/
         User savedUser = userRepository.save(user);
         student.setUser(savedUser);
 

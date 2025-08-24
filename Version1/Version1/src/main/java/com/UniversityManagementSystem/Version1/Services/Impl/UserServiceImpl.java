@@ -1,6 +1,7 @@
 package com.UniversityManagementSystem.Version1.Services.Impl;
 
 import com.UniversityManagementSystem.Version1.entity.User;
+import com.UniversityManagementSystem.Version1.repository.StudentRepository;
 import com.UniversityManagementSystem.Version1.repository.UserRepository;
 import com.UniversityManagementSystem.Version1.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -50,9 +50,12 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(id);
 
         user.setUsername(userDetails.getUsername());
+        user.setFirstName(userDetails.getFirstName());
+        user.setLastName(userDetails.getLastName());
+        user.setDateOfBirth(userDetails.getDateOfBirth());
         user.setEmail(userDetails.getEmail());
         user.setPasswordHash(userDetails.getPasswordHash());
-        user.setRole(userDetails.getRole());
+        user.setRoleName(userDetails.getRoleName());
 
         return userRepository.save(user);
     }

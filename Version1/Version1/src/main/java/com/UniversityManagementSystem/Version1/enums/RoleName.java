@@ -1,5 +1,5 @@
 package com.UniversityManagementSystem.Version1.enums;
 
- enum RoleName {
+public enum RoleName {
     STUDENT,INSTRUCTOR,ADMIN
 }

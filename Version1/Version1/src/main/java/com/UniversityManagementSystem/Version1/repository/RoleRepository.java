@@ -1,4 +1,4 @@
-package com.UniversityManagementSystem.Version1.repository;
+/*package com.UniversityManagementSystem.Version1.repository;
 
 import com.UniversityManagementSystem.Version1.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,3 +25,4 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("SELECT COUNT(u) FROM User u WHERE u.role.roleId = :roleId")
     Long countUsersByRoleId(@Param("roleId") Integer roleId);
 }
+*/

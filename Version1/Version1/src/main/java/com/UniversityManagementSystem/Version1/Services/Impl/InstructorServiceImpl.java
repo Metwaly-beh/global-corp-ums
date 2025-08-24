@@ -21,8 +21,8 @@ public class InstructorServiceImpl implements InstructorService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    //@Autowired
+    //private RoleRepository roleRepository;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -49,10 +49,10 @@ public class InstructorServiceImpl implements InstructorService {
         user.setCreatedAt(LocalDateTime.now());
 
         // Set instructor role
-        Role instructorRole = roleRepository.findByRoleName("INSTRUCTOR")
+       /* Role instructorRole = roleRepository.findByRoleName("INSTRUCTOR")
                 .orElseThrow(() -> new RuntimeException("Instructor role not found"));
         user.setRole(instructorRole);
-
+*/
         User savedUser = userRepository.save(user);
         instructor.setUser(savedUser);
 

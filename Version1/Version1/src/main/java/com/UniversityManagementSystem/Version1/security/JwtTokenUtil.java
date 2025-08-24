@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -56,7 +57,7 @@ public class JwtTokenUtil {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
-        claims.put("role", user.getRole().getRoleName());
+        claims.put("role", user.getRoleName().name());
         return createToken(claims, user.getUsername());
     }
 
