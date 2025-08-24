@@ -9,7 +9,7 @@ public interface UserService {
 
     Optional<User> findByUsername(String username);
     User createUser(User user);
-
+    int getStudentIdByUsername(String username);
     User getUserById(Integer id);
 
     List<User> getAllUsers();

@@ -1,7 +1,9 @@
 package com.UniversityManagementSystem.Version1.Controllers;
 
+import com.UniversityManagementSystem.Version1.Services.Impl.StudentServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.InstructorService;
 import com.UniversityManagementSystem.Version1.Services.Impl.InstructorServiceImpl;
+import com.UniversityManagementSystem.Version1.Services.StudentService;
 import com.UniversityManagementSystem.Version1.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,13 @@ public class InstructorController {
     private InstructorService instructorService;
 
     @Autowired
+    private StudentService studentService;
+
+    @Autowired
     private InstructorServiceImpl instructorServiceImpl;
+
+    @Autowired
+    private StudentServiceImpl studentServiceImpl;
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
@@ -130,5 +138,19 @@ public class InstructorController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @GetMapping("/students/get")
+    @PreAuthorize("hasRole('Admin') or hasRole('Instructor')")
+    public ResponseEntity<Enrollment> getStudentEnrollment(@PathVariable int studentId){
+        try{
+            Enrollment enrollment=instructorServiceImpl.getStudentEnrollment(studentServiceImpl.getStudentById(studentId));
+            return new ResponseEntity<Enrollment>(enrollment, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+
     }
 }

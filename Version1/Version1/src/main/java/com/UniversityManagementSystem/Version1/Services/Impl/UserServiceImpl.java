@@ -1,5 +1,6 @@
 package com.UniversityManagementSystem.Version1.Services.Impl;
 
+import com.UniversityManagementSystem.Version1.entity.Student;
 import com.UniversityManagementSystem.Version1.entity.User;
 import com.UniversityManagementSystem.Version1.repository.StudentRepository;
 import com.UniversityManagementSystem.Version1.repository.UserRepository;
@@ -14,12 +15,17 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+
     private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     public User createUser(User user) {
@@ -79,4 +85,16 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByUsername(String username){
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public int getStudentIdByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
+        Student student = studentRepository.findByUserUserId(user.getUserId())
+                .orElseThrow(() -> new RuntimeException("Student not found for user ID: " + user.getUserId()));
+
+        return student.getStudentId();
+    }
+
 }

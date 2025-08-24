@@ -3,8 +3,10 @@ package com.UniversityManagementSystem.Version1.Controllers;
 import com.UniversityManagementSystem.Version1.Payload.Request.UserRegistrationRequest;
 import com.UniversityManagementSystem.Version1.Payload.Response.JwtResponse;
 import com.UniversityManagementSystem.Version1.Payload.Request.LoginRequest;
+import com.UniversityManagementSystem.Version1.Services.Impl.InstructorServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.StudentServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.UserServiceImpl;
+import com.UniversityManagementSystem.Version1.entity.Instructor;
 import com.UniversityManagementSystem.Version1.entity.Student;
 import com.UniversityManagementSystem.Version1.entity.User;
 import com.UniversityManagementSystem.Version1.enums.RoleName;
@@ -37,6 +39,9 @@ public class AuthController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private InstructorServiceImpl instructorService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -77,6 +82,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
         User user = new User();
         Student student=new Student();
+        Instructor instructor= new Instructor();
 
         user.setUsername(userRegistrationRequest.getUsername());
         user.setEmail(userRegistrationRequest.getEmail());
@@ -110,12 +116,22 @@ public class AuthController {
             student.setDateOfBirth(createdUser.getDateOfBirth());
         }
 
+        if (createdUser.getRoleName().name().equals("INSTRUCTOR")) {
+            instructor.setUser(createdUser);
+            instructor.setEmail(createdUser.getEmail());
+            instructor.setFirstName(createdUser.getFirstName());
+            instructor.setLastName(createdUser.getLastName());
+
+        }
+
 
         if (user.getRoleName().name().equals("STUDENT")) {
             Student createdStudent = studentService.registerStudent(student);
         }
 
-
+        if (user.getRoleName().name().equals("INSTRUCTOR")) {
+            Instructor createdInstructor = instructorService.registerInstructor(instructor);
+        }
 
 
         String jwt = jwtTokenUtil.generateToken(createdUser);

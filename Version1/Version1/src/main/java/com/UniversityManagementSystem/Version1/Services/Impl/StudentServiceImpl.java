@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,18 +45,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student registerStudent(Student student) {
         // Create user account
-        User user = new User();
+       /* User user = new User();
         user.setUsername(student.getEmail());
         user.setEmail(student.getEmail());
         user.setPasswordHash(passwordEncoder.encode("defaultPassword123")); // You might want to generate this
         user.setCreatedAt(LocalDateTime.now());
-
+*/
         // Set student role
       /*  Role studentRole = roleRepository.findByRoleName("STUDENT")
                 .orElseThrow(() -> new RuntimeException("Student role not found"));
         user.setRole(studentRole);*/
-        User savedUser = userRepository.save(user);
-        student.setUser(savedUser);
 
         return studentRepository.save(student);
     }
@@ -156,4 +155,6 @@ public class StudentServiceImpl implements StudentService {
         Student student = getStudentById(studentId);
         return participationRepository.findByStudent(student);
     }
+
+
 }

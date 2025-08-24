@@ -42,20 +42,20 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public Instructor registerInstructor(Instructor instructor) {
         // Create user account
-        User user = new User();
+  /*      User user = new User();
         user.setUsername(instructor.getEmail());
         user.setEmail(instructor.getEmail());
         user.setPasswordHash(passwordEncoder.encode("defaultPassword123")); // You might want to generate this
         user.setCreatedAt(LocalDateTime.now());
-
+*/
         // Set instructor role
        /* Role instructorRole = roleRepository.findByRoleName("INSTRUCTOR")
                 .orElseThrow(() -> new RuntimeException("Instructor role not found"));
         user.setRole(instructorRole);
 */
-        User savedUser = userRepository.save(user);
+  /*      User savedUser = userRepository.save(user);
         instructor.setUser(savedUser);
-
+        */
         return instructorRepository.save(instructor);
     }
 
