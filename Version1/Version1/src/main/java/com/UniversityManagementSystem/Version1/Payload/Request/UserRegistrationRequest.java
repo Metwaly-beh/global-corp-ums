@@ -13,7 +13,7 @@ public class UserRegistrationRequest {
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth; // For students
-    private Long departmentId;
+    private int departmentId;
     private RoleName role; // "STUDENT" or "INSTRUCTOR"
 
     // Constructors, getters, setters
@@ -21,7 +21,7 @@ public class UserRegistrationRequest {
 
     public UserRegistrationRequest(String username, String password, String email,
                                    String firstName, String lastName, LocalDate dateOfBirth,
-                                   Long departmentId, String role) {
+                                   int departmentId, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -45,8 +45,8 @@ public class UserRegistrationRequest {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public LocalDate getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-    public Long getDepartmentId() { return departmentId; }
-    public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
+    public int getDepartmentId() { return departmentId; }
+    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; }
     public String getRole() { return role.name(); }
     public void setRole(String role) { this.role = RoleName.valueOf(role); }
 }

@@ -6,10 +6,12 @@ import com.UniversityManagementSystem.Version1.Payload.Request.LoginRequest;
 import com.UniversityManagementSystem.Version1.Services.Impl.InstructorServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.StudentServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.UserServiceImpl;
+import com.UniversityManagementSystem.Version1.entity.Department;
 import com.UniversityManagementSystem.Version1.entity.Instructor;
 import com.UniversityManagementSystem.Version1.entity.Student;
 import com.UniversityManagementSystem.Version1.entity.User;
 import com.UniversityManagementSystem.Version1.enums.RoleName;
+import com.UniversityManagementSystem.Version1.repository.DepartmentRepository;
 import com.UniversityManagementSystem.Version1.security.JwtTokenUtil;
 import com.UniversityManagementSystem.Version1.Services.*;
 import org.aspectj.apache.bcel.classfile.Module;
@@ -43,6 +45,8 @@ public class AuthController {
     @Autowired
     private InstructorServiceImpl instructorService;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -122,7 +126,10 @@ public class AuthController {
             instructor.setFirstName(createdUser.getFirstName());
             instructor.setLastName(createdUser.getLastName());
 
-        }
+            Department department = departmentRepository.findById(userRegistrationRequest.getDepartmentId())
+                    .orElseThrow(() -> new RuntimeException("Department not found with id: " + userRegistrationRequest.getDepartmentId()));
+
+            instructor.setDepartment(department);}
 
 
         if (user.getRoleName().name().equals("STUDENT")) {
