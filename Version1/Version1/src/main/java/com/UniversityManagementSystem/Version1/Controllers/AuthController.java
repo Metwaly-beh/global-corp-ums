@@ -120,7 +120,6 @@ public class AuthController {
 
         String jwt = jwtTokenUtil.generateToken(createdUser);
 
-        // ✅ Return token in the response
         return ResponseEntity.ok(Map.of(
                 "token", jwt,
                 "username", createdUser.getUsername(),
