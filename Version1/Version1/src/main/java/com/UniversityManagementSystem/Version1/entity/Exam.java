@@ -1,4 +1,4 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,24 +8,21 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "exams")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"course", "classroom"})
-public class Exams {
+@ToString(exclude = {"course", "classroom","performance"})
+public class Exam {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exam_id")
     private Integer examId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Courses course;
 
     @Column(name = "exam_date")
     private LocalDate examDate;
@@ -36,7 +33,17 @@ public class Exams {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "exam_type")
+    private String examType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id")
-    private Classrooms classroom;
-*/}
+    private Classroom classroom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Performance> performance;
+}

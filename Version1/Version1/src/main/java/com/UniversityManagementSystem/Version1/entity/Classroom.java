@@ -1,7 +1,7 @@
-package entity;
+package com.UniversityManagementSystem.Version1.entity;
 
 
-import enums.Building;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = {"schedules", "exams"})
-public class Classrooms {
+@ToString(exclude = {"schedule", "exams"})
+public class Classroom {
 
 
 
@@ -26,7 +26,7 @@ public class Classrooms {
     private Integer classroomId;
 
     @Column(name = "building")
-    private Building building;
+    private String building;
 
     @Column(name = "room_number", length = 10)
     private String roomNumber;
@@ -34,5 +34,14 @@ public class Classrooms {
     @Column(name = "capacity")
     private Integer capacity;
 
+
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Schedule> schedule;
+
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Exam> exams;
+
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Exam> examList;
 
 }
