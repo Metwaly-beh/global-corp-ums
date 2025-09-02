@@ -1,4 +1,4 @@
-package com.UniversityManagementSystem.Version1.security;
+/*package com.UniversityManagementSystem.Version1.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,3 +28,4 @@ public class MyUserDetails implements UserDetails {
 
     @Override public String getPassword() { return password; } // optional
 }
+*/

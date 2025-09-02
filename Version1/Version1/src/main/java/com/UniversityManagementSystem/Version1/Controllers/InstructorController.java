@@ -1,12 +1,12 @@
 package com.UniversityManagementSystem.Version1.Controllers;
 
+import com.UniversityManagementSystem.Version1.Services.Impl.InstructorServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.Impl.StudentServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.InstructorService;
-import com.UniversityManagementSystem.Version1.Services.Impl.InstructorServiceImpl;
 import com.UniversityManagementSystem.Version1.Services.StudentService;
 import com.UniversityManagementSystem.Version1.entity.*;
+import com.UniversityManagementSystem.Version1.security.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,138 +19,106 @@ import java.util.List;
 public class InstructorController {
 
     @Autowired
-    private InstructorService instructorService;
+    private InstructorServiceImpl instructorService;
 
     @Autowired
-    private StudentService studentService;
+    private StudentServiceImpl studentService;
 
     @Autowired
-    private InstructorServiceImpl instructorServiceImpl;
+    private CurrentUser currentUser;
 
-    @Autowired
-    private StudentServiceImpl studentServiceImpl;
+    // -------------------- Instructor CRUD --------------------
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Instructor> registerInstructor(@RequestBody Instructor instructor) {
-        try {
-            Instructor registeredInstructor = instructorService.registerInstructor(instructor);
-            return new ResponseEntity<>(registeredInstructor, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        Instructor registered = instructorService.registerInstructor(instructor);
+        return ResponseEntity.status(201).body(registered);
     }
 
     @GetMapping("/{instructorId}")
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('INSTRUCTOR') and #instructorId == authentication.principal.instructorId)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Instructor> getInstructorById(@PathVariable int instructorId) {
-        try {
-            Instructor instructor = instructorService.getInstructorById(instructorId);
-            return new ResponseEntity<>(instructor, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        if (!isAuthorizedInstructor(instructorId)) return ResponseEntity.status(403).build();
+
+        Instructor instructor = instructorService.getInstructorById(instructorId);
+        return ResponseEntity.ok(instructor);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Instructor>> getAllInstructors() {
-        try {
-            List<Instructor> instructors = instructorService.getAllInstructors();
-            return new ResponseEntity<>(instructors, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(instructorService.getAllInstructors());
     }
 
     @PutMapping("/{instructorId}")
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('INSTRUCTOR') and #instructorId == authentication.principal.instructorId)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Instructor> updateInstructor(@PathVariable int instructorId, @RequestBody Instructor instructor) {
-        try {
-            Instructor updatedInstructor = instructorService.updateInstructor(instructorId, instructor);
-            return new ResponseEntity<>(updatedInstructor, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        if (!isAuthorizedInstructor(instructorId)) return ResponseEntity.status(403).build();
+
+        Instructor updated = instructorService.updateInstructor(instructorId, instructor);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{instructorId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<HttpStatus> deleteInstructor(@PathVariable int instructorId) {
-        try {
-            instructorService.deleteInstructor(instructorId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Void> deleteInstructor(@PathVariable int instructorId) {
+        instructorService.deleteInstructor(instructorId);
+        return ResponseEntity.noContent().build();
     }
+
+    // -------------------- Courses --------------------
 
     @GetMapping("/{instructorId}/courses")
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('INSTRUCTOR') and #instructorId == authentication.principal.instructorId)")
-    public ResponseEntity<List<Course>> getInstructorCourses(@PathVariable int instructorId) {
-        try {
-            List<Course> courses = instructorServiceImpl.getInstructorCourses(instructorId);
-            return new ResponseEntity<>(courses, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/courses/{courseId}/enrollments")
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
-    public ResponseEntity<List<Enrollment>> getCourseEnrollments(@PathVariable int courseId) {
-        try {
-            List<Enrollment> enrollments = instructorServiceImpl.getCourseEnrollments(courseId);
-            return new ResponseEntity<>(enrollments, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<List<Course>> getInstructorCourses(@PathVariable int instructorId) {
+        if (!isAuthorizedInstructor(instructorId)) return ResponseEntity.status(403).build();
+
+        return ResponseEntity.ok(instructorService.getInstructorCourses(instructorId));
     }
 
     @PostMapping("/courses")
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        try {
-            Course createdCourse = instructorService.setCourse(course);
-            return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        Course created = instructorService.setCourse(course);
+        return ResponseEntity.status(201).body(created);
     }
+
+    @GetMapping("/courses/{courseId}/enrollments")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
+    public ResponseEntity<List<Enrollment>> getCourseEnrollments(@PathVariable int courseId) {
+        return ResponseEntity.ok(instructorService.getCourseEnrollments(courseId));
+    }
+
+    // -------------------- Exams --------------------
 
     @PostMapping("/exams")
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Exam> createExam(@RequestBody Exam exam) {
-        try {
-            Exam createdExam = instructorService.setExam(exam);
-            return new ResponseEntity<>(createdExam, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        Exam created = instructorService.setExam(exam);
+        return ResponseEntity.status(201).body(created);
     }
 
     @GetMapping("/courses/{courseId}/exams")
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<List<Exam>> getCourseExams(@PathVariable int courseId) {
-        try {
-            List<Exam> exams = instructorServiceImpl.getCourseExams(courseId);
-            return new ResponseEntity<>(exams, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(instructorService.getCourseExams(courseId));
     }
 
+    // -------------------- Enrollment --------------------
 
-    @GetMapping("/students/get")
-    @PreAuthorize("hasRole('Admin') or hasRole('Instructor')")
-    public ResponseEntity<Enrollment> getStudentEnrollment(@PathVariable int studentId){
-        try{
-            Enrollment enrollment=instructorServiceImpl.getStudentEnrollment(studentServiceImpl.getStudentById(studentId));
-            return new ResponseEntity<Enrollment>(enrollment, HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/students/{studentId}/enrollment")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
+    public ResponseEntity<Enrollment> getStudentEnrollment(@PathVariable int studentId) {
+        Student student = studentService.getStudentById(studentId);
+        Enrollment enrollment = instructorService.getStudentEnrollment(student);
+        return ResponseEntity.ok(enrollment);
+    }
 
+    // -------------------- Internal Access Check --------------------
+
+    private boolean isAuthorizedInstructor(int instructorId) {
+        return currentUser.getRole().equalsIgnoreCase("ADMIN") ||
+                (currentUser.getInstructorId() != null && currentUser.getInstructorId() == instructorId);
     }
 }

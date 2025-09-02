@@ -1,10 +1,12 @@
 package com.UniversityManagementSystem.Version1.security;
 
+import com.UniversityManagementSystem.Version1.Services.Impl.UserServiceImpl;
 import com.UniversityManagementSystem.Version1.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,9 @@ public class JwtTokenUtil {
     @Value("${jwt.expiration:86400}") // 24 hours in seconds
     private Long expiration;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
@@ -41,7 +46,7 @@ public class JwtTokenUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    protected Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -58,6 +63,10 @@ public class JwtTokenUtil {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
         claims.put("role", user.getRoleName().name());
+        if(user.getRoleName().name().equals("INSTRUCTOR"))
+        claims.put("instructorId",userService.getInstructorByUser(user).getInstructorId());
+        if(user.getRoleName().name().equals("STUDENT"))
+            claims.put("instructorId",userService.getStudentIdByUsername(user.getUsername()));
         return createToken(claims, user.getUsername());
     }
 

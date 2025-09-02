@@ -1,7 +1,9 @@
 package com.UniversityManagementSystem.Version1.Services.Impl;
 
+import com.UniversityManagementSystem.Version1.entity.Instructor;
 import com.UniversityManagementSystem.Version1.entity.Student;
 import com.UniversityManagementSystem.Version1.entity.User;
+import com.UniversityManagementSystem.Version1.repository.InstructorRepository;
 import com.UniversityManagementSystem.Version1.repository.StudentRepository;
 import com.UniversityManagementSystem.Version1.repository.UserRepository;
 import com.UniversityManagementSystem.Version1.Services.UserService;
@@ -17,8 +19,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private InstructorRepository instructorRepository;
 
+    private InstructorServiceImpl instructorService;
 
+    @Autowired
     private final UserRepository userRepository;
 
     @Autowired
@@ -81,6 +87,19 @@ public class UserServiceImpl implements UserService {
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
+
+    @Override
+    public Instructor getInstructorByUser(User user) {
+        return instructorRepository.findByUserUserId(user.getUserId())
+                .orElseThrow(() -> new RuntimeException("Instructor not Found"));
+
+    }
+
+    @Override
+    public Student getStudentByUser(User user) {
+        return null;
+    }
+
     @Override
     public Optional<User> findByUsername(String username){
         return userRepository.findByUsername(username);
